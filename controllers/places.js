@@ -1,10 +1,13 @@
 const router = require('express').Router();
+const places = require('../models/places.js');
 
 router.get('/new', (req, res) => {
     res.render('places/new');
 })
 
+//POST
 router.post('/', (req, res) => {
+    console.log(req.body)
     if (!req.body.pic) {
         // Default image if one is not provided
         req.body.pic = 'http://placekitten.com/400/400'
@@ -19,23 +22,12 @@ router.post('/', (req, res) => {
     res.redirect('POST /places')
 })
 
+
 // GET /places
 router.get('/', (req, res) => {
-    let places = [{
-        name: 'H-Thai-ML',
-        city: 'Seattle',
-        state: 'WA',
-        cuisines: 'Thai, Pan-Asian',
-        pic: '/images/rest-outside.png'
-    }, {
-        name: 'Coding Cat Cafe',
-        city: 'Phoenix',
-        state: 'AZ', 
-        cuisines: 'Coffee, Bakery', 
-        pic: '/images/water-rest.jpg'
-    }];
     res.render('places/index', {places})
 })
+
 
 // Show
 router.get('/:id', (req, res) => {
@@ -47,7 +39,22 @@ router.get('/:id', (req, res) => {
         res.render('error404');
     }
     else {
-        res.render('places/show', {place: places[id]});
+        res.render('places/show', {place: places[id], id});
+    }
+})
+
+// DELETE
+router.delete('/places/:id', (req, res) => {
+    let id = Number(req.params.id);
+    if (isNaN(id)) {
+        res.render('error404');
+    }
+    else if (!places[id]) {
+        res.render('error404)');
+    }
+    else {
+        places.splice(id, 1);
+        res.redirect('/places');
     }
 })
         
