@@ -40,6 +40,7 @@ router.put('/:id', (req, res) => {
         if (!req.body.state) {
             req.body.state = 'Somewhere in the land of OZ'
         }
+        places[id] = req.body;
         res.redirect(`/places/${id}`);
     }
 })
