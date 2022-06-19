@@ -8,8 +8,8 @@ function show (data) {
         </h3>
     )
     if (data.place.comments.length) {
-        let sumRatings = data.place.comments.reduce((total, c) => {
-            return total + c.stars
+        let sumRatings = data.place.comments.reduce((tot, c) => {
+            return tot + c.stars
         }, 0)
         let averageRating = Math.round(sumRatings / data.place.comments.length);
         let stars = '';
